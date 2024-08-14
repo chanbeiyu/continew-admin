@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import top.continew.admin.common.enums.DataScopeEnum;
 import top.continew.admin.system.service.RoleDeptService;
-import top.continew.starter.extension.crud.converter.ExcelBaseEnumConverter;
+import top.continew.starter.file.excel.converter.ExcelBaseEnumConverter;
 import top.continew.starter.extension.crud.model.resp.BaseDetailResp;
 
 import java.io.Serial;
@@ -63,8 +63,7 @@ public class RoleDetailResp extends BaseDetailResp {
     /**
      * 数据权限
      */
-    @Schema(description = "数据权限（1：全部数据权限；2：本部门及以下数据权限；3：本部门数据权限；4：仅本人数据权限；5：自定义数据权限）", type = "Integer", allowableValues = {
-        "1", "2", "3", "4", "5"}, example = "5")
+    @Schema(description = "数据权限", example = "5")
     @ExcelProperty(value = "数据权限", converter = ExcelBaseEnumConverter.class)
     private DataScopeEnum dataScope;
 

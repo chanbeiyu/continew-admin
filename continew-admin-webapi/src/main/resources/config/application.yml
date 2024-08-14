@@ -5,7 +5,7 @@ project:
   # 应用名称
   app-name: continew-admin
   # 版本
-  version: 3.1.0
+  version: 3.2.0
   # 描述
   description: 持续迭代优化的前后端分离中后台管理系统框架，开箱即用，持续提供舒适的开发体验。
   # 基本包
@@ -18,7 +18,7 @@ project:
   ## 许可协议信息配置
   license:
     name: Apache-2.0
-    url: https://github.com/Charles7c/continew-admin/blob/dev/LICENSE
+    url: https://github.com/continew-org/continew-admin/blob/dev/LICENSE
 
 --- ### 日志配置
 continew-starter.log:
@@ -48,18 +48,6 @@ continew-starter.web:
       pattern: '[$spanId][$traceId]'
       mdc-enable: false
 
---- ### 线程池配置
-continew-starter.thread-pool:
-  enabled: true
-  # 队列容量
-  queue-capacity: 128
-  # 活跃时间（单位：秒）
-  keep-alive-seconds: 300
-  # 关闭线程池是否等待任务完成
-  wait-for-tasks-to-complete-on-shutdown: true
-  # 执行器在关闭时阻塞的最长毫秒数，以等待剩余任务完成执行（单位：毫秒）
-  await-termination-millis: 30000
-
 --- ### 接口文档配置
 springdoc:
   # 设置对象型参数的展示形式（设为 true 表示将对象型参数平展开，即对象内的属性直接作为参数展示而不是嵌套在对象内，默认 false）
@@ -73,16 +61,16 @@ springdoc:
         - /error
     - group: auth
       display-name: 系统认证
-      packages-to-scan: ${project.base-package}.webapi.auth
+      packages-to-scan: ${project.base-package}.controller.auth
     - group: common
       display-name: 通用接口
-      packages-to-scan: ${project.base-package}.webapi.common
+      packages-to-scan: ${project.base-package}.controller.common
     - group: system
       display-name: 系统管理
-      packages-to-scan: ${project.base-package}.webapi.system
+      packages-to-scan: ${project.base-package}.controller.system
     - group: monitor
       display-name: 系统监控
-      packages-to-scan: ${project.base-package}.webapi.monitor
+      packages-to-scan: ${project.base-package}.controller.monitor
   ## 组件配置
   components:
     # 鉴权配置
@@ -134,10 +122,12 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*Mapper.xml
   # 类型别名扫描包配置
   type-aliases-package: ${project.base-package}.**.model
+  ## MyBatis 配置
   configuration:
     # MyBatis 自动映射策略
     # NONE：不启用 PARTIAL：只对非嵌套 resultMap 自动映射 FULL：对所有 resultMap 自动映射
     auto-mapping-behavior: PARTIAL
+  ## 全局配置
   global-config:
     banner: true
     db-config:
@@ -224,17 +214,43 @@ server:
 spring:
   application:
     name: ${project.app-name}
+  main:
+    # 允许定义重名的 bean 对象覆盖原有的 bean
+    allow-bean-definition-overriding: true
+    # 允许循环依赖
+    allow-circular-references: true
   ## 环境配置
   profiles:
     # 启用的环境
     active: dev
     include:
       - generator
-  main:
-    # 允许定义重名的 bean 对象覆盖原有的 bean
-    allow-bean-definition-overriding: true
-    # 允许循环依赖
-    allow-circular-references: true
+  ## 线程池配置（默认启用扩展配置，如未指定 corePoolSize、maxPoolSize 则根据机器配置自动设置）
+  task:
+    # 异步任务
+    execution:
+      thread-name-prefix: task-pool
+      # 任务拒绝策略（默认 ABORT，不执行新任务，直接抛出 RejectedExecutionException 异常）
+      # CALLER_RUNS：提交的任务在执行被拒绝时，会由提交任务的线程去执行
+      rejected-policy: CALLER_RUNS
+      pool:
+        keep-alive: 300s
+      shutdown:
+        # 是否等待任务执行完成再关闭线程池（默认 false）
+        await-termination: true
+        # 等待时间
+        await-termination-period: 30s
+    # 定时任务
+    scheduling:
+      thread-name-prefix: schedule-pool
+      # 任务拒绝策略（默认 ABORT，不执行新任务，直接抛出 RejectedExecutionException 异常）
+      # CALLER_RUNS：提交的任务在执行被拒绝时，会由提交任务的线程去执行
+      rejected-policy: CALLER_RUNS
+      shutdown:
+        # 是否等待任务执行完成再关闭线程池（默认 false）
+        await-termination: true
+        # 等待时间
+        await-termination-period: 30s
 
 --- ### 健康检查配置
 management.health:

@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import top.continew.admin.common.enums.DisEnableStatusEnum;
 import top.continew.starter.extension.crud.annotation.TreeField;
-import top.continew.starter.extension.crud.converter.ExcelBaseEnumConverter;
+import top.continew.starter.file.excel.converter.ExcelBaseEnumConverter;
 import top.continew.starter.extension.crud.model.resp.BaseDetailResp;
 
 import java.io.Serial;
@@ -59,7 +59,7 @@ public class DeptResp extends BaseDetailResp {
     /**
      * 状态
      */
-    @Schema(description = "状态（1：启用；2：禁用）", type = "Integer", allowableValues = {"1", "2"}, example = "1")
+    @Schema(description = "状态", example = "1")
     @ExcelProperty(value = "状态", converter = ExcelBaseEnumConverter.class, order = 5)
     private DisEnableStatusEnum status;
 

@@ -21,7 +21,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import top.continew.admin.system.enums.LogStatusEnum;
-import top.continew.starter.extension.crud.converter.ExcelBaseEnumConverter;
+import top.continew.starter.file.excel.converter.ExcelBaseEnumConverter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -79,7 +79,7 @@ public class OperationLogExportResp implements Serializable {
     /**
      * 状态
      */
-    @Schema(description = "状态（1：成功；2：失败）", type = "Integer", allowableValues = {"1", "2"}, example = "1")
+    @Schema(description = "状态", example = "1")
     @ExcelProperty(value = "状态", converter = ExcelBaseEnumConverter.class)
     private LogStatusEnum status;
 

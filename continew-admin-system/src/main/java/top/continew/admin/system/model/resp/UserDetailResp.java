@@ -31,7 +31,7 @@ import top.continew.admin.common.enums.DisEnableStatusEnum;
 import top.continew.admin.common.enums.GenderEnum;
 import top.continew.admin.common.util.helper.LoginHelper;
 import top.continew.admin.system.service.DeptService;
-import top.continew.starter.extension.crud.converter.ExcelBaseEnumConverter;
+import top.continew.starter.file.excel.converter.ExcelBaseEnumConverter;
 import top.continew.starter.extension.crud.model.resp.BaseDetailResp;
 import top.continew.starter.file.excel.converter.ExcelListConverter;
 import top.continew.starter.security.crypto.annotation.FieldEncrypt;
@@ -73,14 +73,14 @@ public class UserDetailResp extends BaseDetailResp {
     /**
      * 状态
      */
-    @Schema(description = "状态（1：启用；2：禁用）", type = "Integer", allowableValues = {"1", "2"}, example = "1")
+    @Schema(description = "状态", example = "1")
     @ExcelProperty(value = "状态", converter = ExcelBaseEnumConverter.class, order = 4)
     private DisEnableStatusEnum status;
 
     /**
      * 性别
      */
-    @Schema(description = "性别（0：未知；1：男；2：女）", type = "Integer", allowableValues = {"0", "1", "2"}, example = "1")
+    @Schema(description = "性别", example = "1")
     @ExcelProperty(value = "性别", converter = ExcelBaseEnumConverter.class, order = 5)
     private GenderEnum gender;
 
