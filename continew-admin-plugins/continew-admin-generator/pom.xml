@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>top.continew</groupId>
-        <artifactId>beiyu-admin-plugins</artifactId>
+        <artifactId>continew-admin-plugins</artifactId>
         <version>${revision}</version>
     </parent>
 
